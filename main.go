@@ -62,7 +62,38 @@ func main() {
 			return nil
 		})
 	} else if *action == "xml2csv" {
+		filepath.Walk(config.OutputFolder, func(path string, info os.FileInfo, err error) error {
+			if info.IsDir() {
+				return nil
+			}
+			if filepath.Ext(path) == ".xml" {
+				xmlContent, readError := ioutil.ReadFile(path)
+				if readError != nil {
+					panic(readError)
+				}
+				csvContent, convertError := Xml2Csv(xmlContent)
+				if convertError != nil {
+					panic(convertError)
+				}
 
+				folder := filepath.Dir(path)
+
+				var baseName string
+				n := strings.LastIndexByte(path, '.')
+				if n >= 0 {
+					baseName = path[:n]
+				} else {
+					baseName = path
+				}
+				csvFilename := filepath.Join(folder, filepath.Base(baseName)+".csv")
+
+				writeError := ioutil.WriteFile(csvFilename, []byte(csvContent), 0700)
+				if writeError != nil {
+					return writeError
+				}
+			}
+			return nil
+		})
 	}
 
 }
