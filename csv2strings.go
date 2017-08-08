@@ -8,8 +8,8 @@ import (
 )
 
 func escapeTranslationString(src string) string {
-	escaped := strings.Replace(src, "\n", "\\n", 0)
-	escaped = strings.Replace(escaped, "\"", "\\\"", 0)
+	escaped := strings.Replace(src, "\n", "\\n", -1)
+	escaped = strings.Replace(escaped, "\"", "\\\"", -1)
 	return escaped
 }
 
