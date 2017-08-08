@@ -1,0 +1,15 @@
+projectId: PROJECT_NAME
+apiToken: PROJECT_API_KEY
+languages:
+  - zh-CN
+  - zh-TW
+  - es-US
+  - it
+  - fr
+  - nl
+  - de
+  - ru
+files:
+  - Localizable.strings
+  - android.xml
+outputFolder: "./translations"
