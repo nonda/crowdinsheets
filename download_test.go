@@ -47,3 +47,32 @@ func Test_configToFiles(t *testing.T) {
 		})
 	}
 }
+
+func Test_convertOsxCodeToCrowdinCode(t *testing.T) {
+	type args struct {
+		language string
+	}
+	tests := []struct {
+		name string
+		args args
+		want string
+	}{
+		{
+			name: "zh-CN",
+			args: args{language: "zh-Hans"},
+			want: "zh-CN",
+		},
+		{
+			name: "zh-TW",
+			args: args{language: "zh-Hant"},
+			want: "zh-TW",
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := convertOsxCodeToCrowdinCode(tt.args.language); got != tt.want {
+				t.Errorf("convertOsxCodeToCrowdinCode() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

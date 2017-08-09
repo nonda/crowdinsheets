@@ -12,6 +12,12 @@ import (
 	"github.com/vbauerster/mpb/decor"
 )
 
+func convertOsxCodeToCrowdinCode(language string) string {
+	s := strings.Replace(language, "zh-Hans", "zh-CN", -1)
+	s = strings.Replace(s, "zh-Hant", "zh-TW", -1)
+	return s
+}
+
 func configToFiles(config CrowdinSheetsConfig) []crowdin.ExportFileOptions {
 	options := []crowdin.ExportFileOptions{}
 
@@ -22,10 +28,10 @@ func configToFiles(config CrowdinSheetsConfig) []crowdin.ExportFileOptions {
 
 	for _, lang := range config.Languages {
 		for _, file := range config.Files {
-			localFilename := path.Join(folder, strings.Replace(lang, "-", "_", 1), file)
+			localFilename := path.Join(folder, lang, file)
 
 			options = append(options, crowdin.ExportFileOptions{
-				Language:    lang,
+				Language:    convertOsxCodeToCrowdinCode(lang),
 				CrowdinFile: file,
 				LocalPath:   localFilename,
 			})

@@ -5,13 +5,14 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"path"
 	"path/filepath"
 	"strings"
 )
 
 func main() {
 	configFile := flag.String("conf", "crowdin.yml", "crowdin.yml config file")
-	action := flag.String("action", "sync", "sync|csv2strings|xml2csv")
+	action := flag.String("action", "sync", "sync|csv2strings|xml2csv|merge")
 
 	flag.Parse()
 
@@ -94,6 +95,15 @@ func main() {
 			}
 			return nil
 		})
+	} else if *action == "merge" {
+		mergedCsv, err := MergeAllLocalizableCSV(&config)
+		if err != nil {
+			panic(err)
+		}
+		outputCsvPath := path.Join(config.OutputFolder, "LocalizableAll.csv")
+		if err = ioutil.WriteFile(outputCsvPath, mergedCsv, 0700); err != nil {
+			panic(err)
+		}
 	}
 
 }
