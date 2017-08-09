@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"io/ioutil"
 	"path"
 
@@ -46,8 +45,6 @@ func MergeAllLocalizableCSV(config *CrowdinSheetsConfig) ([]byte, error) {
 				continue
 			}
 
-			fmt.Printf("%s %s = %s", language, source, translation)
-
 			results[language][source] = translation
 			i++
 		}
@@ -81,6 +78,8 @@ func MergeAllLocalizableCSV(config *CrowdinSheetsConfig) ([]byte, error) {
 			continue
 		}
 	}
+
+	mergedCsv = mergedCsv.Sort("Source")
 
 	csvOutput, err := mergedCsv.CSV()
 	return csvOutput.Bytes(), err
