@@ -69,8 +69,6 @@ func MergeAllLocalizableCSV(config *CrowdinSheetsConfig) ([]byte, error) {
 			columns = append(columns, results[lang][source])
 		}
 
-		fmt.Printf("%v\n\n", columns)
-
 		columnsInterface := make([]interface{}, len(columns))
 		for i, v := range columns {
 			columnsInterface[i] = v
@@ -79,7 +77,6 @@ func MergeAllLocalizableCSV(config *CrowdinSheetsConfig) ([]byte, error) {
 	}
 
 	for _, row := range horizontaledResults {
-		// fmt.Printf("%v\n\n", row)
 		if err := mergedCsv.Append(row); err != nil {
 			continue
 		}
