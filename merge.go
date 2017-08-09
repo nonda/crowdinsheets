@@ -11,7 +11,7 @@ type mergedTranslations map[string]map[string]string
 
 // MergeAllLocalizableCSV merges alls csv files into one
 func MergeAllLocalizableCSV(config *CrowdinSheetsConfig) ([]byte, error) {
-	mergedCsv := tablib.NewDataset([]string{"Source"})
+	mergedCsv := tablib.NewDataset([]string{"English"})
 
 	results := make(mergedTranslations)
 
@@ -79,12 +79,20 @@ func MergeAllLocalizableCSV(config *CrowdinSheetsConfig) ([]byte, error) {
 		}
 	}
 
-	mergedCsv = mergedCsv.Sort("Source")
+	mergedCsv = mergedCsv.Sort("English")
 
 	csvOutput, err := mergedCsv.CSV()
 	return csvOutput.Bytes(), err
 }
 
-// func MergeAndroidCSVIntoStrings(androidCSVContent []byte, stringsCSV []byte) ([]byte, error) {
+// func MergeAllXML(config *CrowdinSheetsConfig) ([]byte, error) {
+// 	mergedCsv := tablib.NewDataset([]string{"Key", "English"})
+
+// 	results := make(mergedTranslations)
+
+// 	for _, language := range config.Languages {
+// 		mergedCsv.AppendColumn(language, nil)
+// 		results[language] = make(map[string]string)
+// 	}
 
 // }
