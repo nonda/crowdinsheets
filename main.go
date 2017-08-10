@@ -29,39 +29,41 @@ func main() {
 		DownloadTranslations(config, files)
 
 	} else if *action == "csv2strings" {
-		filepath.Walk(config.OutputFolder, func(path string, info os.FileInfo, err error) error {
-			if info.IsDir() {
+		for _, lang := range config.Languages {
+			folder := path.Join(config.OutputFolder, lang+".lproj")
+
+			filepath.Walk(folder, func(path string, info os.FileInfo, err error) error {
+				if info.IsDir() {
+					return nil
+				}
+				if filepath.Ext(path) == ".csv" {
+					var baseName string
+					n := strings.LastIndexByte(path, '.')
+					if n >= 0 {
+						baseName = path[:n]
+					} else {
+						baseName = path
+					}
+					stringsFilename := filepath.Join(folder, filepath.Base(baseName)+".strings")
+
+					content, readError := ioutil.ReadFile(path)
+					if readError != nil {
+						return readError
+					}
+
+					stringsContent, convertError := Csv2Strings(content)
+					if convertError != nil {
+						return convertError
+					}
+
+					writeError := ioutil.WriteFile(stringsFilename, []byte(stringsContent), 0700)
+					if writeError != nil {
+						return writeError
+					}
+				}
 				return nil
-			}
-			if filepath.Ext(path) == ".csv" {
-				folder := filepath.Dir(path)
-
-				var baseName string
-				n := strings.LastIndexByte(path, '.')
-				if n >= 0 {
-					baseName = path[:n]
-				} else {
-					baseName = path
-				}
-				stringsFilename := filepath.Join(folder, filepath.Base(baseName)+".strings")
-
-				content, readError := ioutil.ReadFile(path)
-				if readError != nil {
-					return readError
-				}
-
-				stringsContent, convertError := Csv2Strings(content)
-				if convertError != nil {
-					return convertError
-				}
-
-				writeError := ioutil.WriteFile(stringsFilename, []byte(stringsContent), 0700)
-				if writeError != nil {
-					return writeError
-				}
-			}
-			return nil
-		})
+			})
+		}
 	} else if *action == "xml2csv" {
 		filepath.Walk(config.OutputFolder, func(path string, info os.FileInfo, err error) error {
 			if info.IsDir() {

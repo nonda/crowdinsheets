@@ -23,7 +23,7 @@ func Test_configToFiles(t *testing.T) {
 				ProjectID: "PROJECT_NAME",
 				APIToken:  "PROJECT_API_KEY",
 				Languages: []string{
-					"zh-CN",
+					"zh-Hans",
 				},
 				Files: []string{
 					"Localizable.strings",
@@ -33,8 +33,8 @@ func Test_configToFiles(t *testing.T) {
 			want: []crowdin.ExportFileOptions{
 				crowdin.ExportFileOptions{
 					CrowdinFile: "Localizable.strings",
-					Language:    "zh_CN",
-					LocalPath:   path.Join("./translations", "zh_CN", "Localizable.strings"),
+					Language:    "zh-CN",
+					LocalPath:   path.Join("./translations", "zh-Hans.lproj", "Localizable.strings"),
 				},
 			},
 		},

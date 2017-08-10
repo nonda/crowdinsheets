@@ -21,14 +21,11 @@ func convertOsxCodeToCrowdinCode(language string) string {
 func configToFiles(config CrowdinSheetsConfig) []crowdin.ExportFileOptions {
 	options := []crowdin.ExportFileOptions{}
 
-	folder, err := filepath.Abs(config.OutputFolder)
-	if err != nil {
-		panic(err)
-	}
+	folder := config.OutputFolder
 
 	for _, lang := range config.Languages {
 		for _, file := range config.Files {
-			localFilename := path.Join(folder, lang, file)
+			localFilename := path.Join(folder, lang+".lproj", file)
 
 			options = append(options, crowdin.ExportFileOptions{
 				Language:    convertOsxCodeToCrowdinCode(lang),

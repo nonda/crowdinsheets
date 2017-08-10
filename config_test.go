@@ -22,7 +22,7 @@ func TestReadConfig(t *testing.T) {
 				ProjectID: "PROJECT_NAME",
 				APIToken:  "PROJECT_API_KEY",
 				Languages: []string{
-					"zh-CN", "zh-TW", "es-US", "it", "fr", "nl", "de", "ru",
+					"zh-Hans", "zh-Hant", "es-US", "it", "fr", "nl", "de", "ru",
 				},
 				Files: []string{
 					"Localizable.strings",

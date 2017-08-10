@@ -20,7 +20,7 @@ func TestXml2Csv(t *testing.T) {
 			args: args{
 				xmlData: []byte("<xml><string name=\"hello\">world</string></xml>"),
 			},
-			want:    []byte("key,translation\nhello,world"),
+			want:    []byte("key,translation\nhello,world\n"),
 			wantErr: false,
 		},
 	}
